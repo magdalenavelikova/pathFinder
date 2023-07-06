@@ -7,30 +7,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 public class UserEntity extends BaseEntity {
 
     @Column(nullable = false,
             unique = true)
     private String username;
 
-
+    @Column(nullable = false)
     private String password;
     @Column(nullable = false,
             unique = true)
     private String email;
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+    @Column(nullable = false)
+    private Integer age;
+    @Column(name = "full_name", nullable = false)
+    private String fullName;
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<RoleEntity> roles = new ArrayList<>();
+    private Set<RoleEntity> roles = new HashSet<>();
     @Enumerated(value = EnumType.STRING)
     private Level level;
 

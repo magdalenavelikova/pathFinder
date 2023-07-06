@@ -10,11 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "roles")
-public class RoleEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Entity
+@Table(name = "roles")
+public class RoleEntity extends BaseEntity {
+
     @Enumerated(value = EnumType.STRING)
     private Role role;
 }
