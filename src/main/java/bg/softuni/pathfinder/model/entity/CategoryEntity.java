@@ -1,8 +1,7 @@
 package bg.softuni.pathfinder.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import bg.softuni.pathfinder.model.entity.enums.Category;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +15,7 @@ public class CategoryEntity extends BaseEntity {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
+    @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private String name;
+    private Category name;
 }
