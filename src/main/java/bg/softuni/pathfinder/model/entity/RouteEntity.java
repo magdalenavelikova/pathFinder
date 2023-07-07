@@ -31,8 +31,10 @@ public class RouteEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private UserEntity author;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<CategoryEntity> categories;
-    @OneToMany(targetEntity = CommentEntity.class,mappedBy = "route")
+    @OneToMany(targetEntity = CommentEntity.class,mappedBy = "route",fetch = FetchType.EAGER)
     private Set<CommentEntity> comments;
+    @OneToMany(targetEntity = PictureEntity.class,mappedBy = "route",fetch = FetchType.EAGER)
+    List<PictureEntity> pictures;
 }
