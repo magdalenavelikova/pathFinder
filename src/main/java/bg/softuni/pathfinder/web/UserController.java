@@ -1,6 +1,7 @@
 package bg.softuni.pathfinder.web;
 
 import bg.softuni.pathfinder.model.dto.UserLoginDto;
+import bg.softuni.pathfinder.model.dto.UserProfileDto;
 import bg.softuni.pathfinder.model.dto.UserRegisterDto;
 import bg.softuni.pathfinder.service.UserService;
 import jakarta.validation.Valid;
@@ -29,6 +30,11 @@ public class UserController {
         return new UserLoginDto();
     }
 
+    @ModelAttribute("userProfileDto")
+    public UserProfileDto profileModel() {
+        return new UserProfileDto();
+    }
+
     @GetMapping("/register")
     public String register() {
         return "register";
@@ -40,7 +46,6 @@ public class UserController {
             redirectAttributes.addFlashAttribute("userRegisterDto", userRegisterDto);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterDto", bindingResult);
             return "redirect:register";
-
         }
         userService.registerAndLogin(userRegisterDto);
         return "redirect:/";
@@ -69,13 +74,20 @@ public class UserController {
         }
 
         boolean login = userService.login(userLoginDto);
-        if(!login){
+        if (!login) {
             redirectAttributes.addFlashAttribute("userLoginDto", userLoginDto);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginDto", bindingResult);
             redirectAttributes.addFlashAttribute("isExist", false);
             return "redirect:login";
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/profile/{id}")
+    public String profile(@PathVariable Long id, Model model) {
+        model.addAttribute("userProfile", userService.getProfile(id));
+
+        return "profile";
     }
 }
 

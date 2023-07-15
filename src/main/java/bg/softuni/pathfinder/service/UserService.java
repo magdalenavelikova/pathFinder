@@ -1,6 +1,7 @@
 package bg.softuni.pathfinder.service;
 
 import bg.softuni.pathfinder.model.dto.UserLoginDto;
+import bg.softuni.pathfinder.model.dto.UserProfileDto;
 import bg.softuni.pathfinder.model.dto.UserRegisterDto;
 import bg.softuni.pathfinder.model.entity.UserEntity;
 import bg.softuni.pathfinder.model.entity.enums.Level;
@@ -37,6 +38,7 @@ public class UserService {
         UserEntity user = mapper.map(userRegisterDto, UserEntity.class);
         user.setLevel(Level.BEGINNER);
         userRepository.save(user);
+        setCurrent(user);
     }
 
     public boolean login(UserLoginDto userLoginDto) {
@@ -61,5 +63,16 @@ public class UserService {
 
     public void logout() {
         currentUser.clear();
+    }
+
+    public UserProfileDto getProfile(Long id) {
+        Optional<UserEntity> user = userRepository.findById(id);
+
+        if (user.isEmpty()) {
+            LOGGER.info("User with id [{}] not found.", id);
+            return null;
+        }
+
+        return mapper.map(user.get(),UserProfileDto.class);
     }
 }

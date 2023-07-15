@@ -15,7 +15,7 @@
                     th:method="post"
                     th:object="${userLoginDto}">
                 <div>
-                    <h5 class="bg-danger" th:if="${!isExist}">Invalid username or password</h5>
+                    <h5 class="bg-danger" th:if="${isExist==false}">Invalid username or password</h5>
                     <div class="col-auto">
                         <label for="inputUsername" class="col-form-label ">Username</label>
                     </div>
