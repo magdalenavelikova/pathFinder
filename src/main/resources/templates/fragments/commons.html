@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head">
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -23,10 +24,10 @@
             <li>
                 <a href="/">Home</a>
             </li>
-            <li>
+            <li th:if="${@currentUser.isAnonymous()}">
                 <a href="/users/login">Login</a>
             </li>
-            <li>
+            <li th:if="${@currentUser.isAnonymous()}">
                 <a href="/users/register">Register</a>
             </li>
             <li>
@@ -41,7 +42,7 @@
             <li>
                 <a href="/">Admin</a>
             </li>
-            <li>
+            <li th:if="${@currentUser.isLoggedIn()}">
                 <a href="users/logout">Logout</a>
             </li>
         </ul>

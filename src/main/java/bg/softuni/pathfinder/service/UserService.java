@@ -32,7 +32,6 @@ public class UserService {
     }
 
 
-
     public void registerAndLogin(UserRegisterDto userRegisterDto) {
 
         UserEntity user = mapper.map(userRegisterDto, UserEntity.class);
@@ -44,25 +43,18 @@ public class UserService {
         Optional<UserEntity> userOpt = userRepository.findByEmailAndPassword(userLoginDto.getEmail(), userLoginDto.getPassword());
         if (userOpt.isEmpty()) {
             LOGGER.info("User with email [{}] not found.", userLoginDto.getEmail());
-
             return false;
         }
-        var rowPassword = userLoginDto.getPassword();
-        var hashPassword = userOpt.get().getPassword();
-        boolean success = passwordEncoder.matches(rowPassword, hashPassword);
         UserEntity user = userOpt.get();
-        if (success) {
-            setCurrent(user);
-        } else {
-            logout();
-        }
-        return success;
+        setCurrent(user);
+        return true;
     }
 
     public void setCurrent(UserEntity userEntity) {
+        currentUser.setId(userEntity.getId());
         currentUser.setLoggedIn(true);
         currentUser.setEmail(userEntity.getEmail());
-        currentUser.setName(userEntity.getFullName() );
+        currentUser.setName(userEntity.getFullName());
 
     }
 

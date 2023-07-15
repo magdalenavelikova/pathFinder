@@ -11,15 +11,18 @@
         <div class="row g-3 align-items-center">
 
             <form
-                    action="/"
-                    method="">
+                    th:action="@{/users/login}"
+                    th:method="post"
+                    th:object="${userLoginDto}">
                 <div>
+                    <h5 class="bg-danger" th:if="${!isExist}">Invalid username or password</h5>
                     <div class="col-auto">
                         <label for="inputUsername" class="col-form-label ">Username</label>
                     </div>
                     <div class="col-auto">
                         <input type="text"
-                               name="username"
+                               th:field="*{email}"
+
                                required minlength="4" maxlength="20"
                                id="inputUsername"
                                class="form-control"
@@ -32,7 +35,7 @@
                     </div>
                     <div class="col-auto">
                         <input type="password"
-                               name="password"
+                               th:field="*{password}"
                                required minlength="4" maxlength="20"
                                id="inputPassword" class="form-control"
                                aria-describedby="passwordHelpInline">
@@ -46,6 +49,6 @@
 
     </div>
 </main>
-<footer  th:replace="~{/fragments/commons::footer}"> </footer>
+<footer th:replace="~{/fragments/commons::footer}"></footer>
 </body>
 </html>

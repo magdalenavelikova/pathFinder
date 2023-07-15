@@ -16,6 +16,7 @@ public class CurrentUser {
     private boolean loggedIn;
 
     public void clear() {
+        this.id=null;
         this.loggedIn=false;
         this.name=null;
         this.email=null;
