@@ -75,7 +75,7 @@
 
     <!-- Portfolio -->
     <section class="gallery">
-        <img th:each="p: ${pictures}" th:src="@{p}" width="200px"
+        <img th:each="p : ${pictures}" th:src="${p}" width="200px"
              height="200px" alt="">
 
     </section>

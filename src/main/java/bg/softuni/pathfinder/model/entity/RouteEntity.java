@@ -26,7 +26,7 @@ public class RouteEntity extends BaseEntity {
     private Level level;
 
     @Column(name = "video_url", nullable = false)
-    private String video_url;
+    private String videoUrl;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private UserEntity author;
