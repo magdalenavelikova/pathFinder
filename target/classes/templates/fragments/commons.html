@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
+<head th:fragment="head">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Pathfinder</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/mobile.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+          integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+            crossorigin=""></script>
+</head>
+<body>
+<header th:fragment="navigation"
+>
+    <nav class="main-nav">
+        <ul >
+            <th:block >
+                <li sec:authorize="!isAuthenticated()">
+                    <a href="/">Home</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()">
+                    <a href="/users/login">Login</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()">
+                    <a href="/users/register">Register</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()">
+                    <a href="/about">About</a>
+                </li>
+            </th:block>
+
+            <th:block >
+
+                <li sec:authorize="isAuthenticated()">
+                    <a href="routes/add">Add new route</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{users/profile}">Profile</a>
+
+                </li >
+                <li sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/admin}">Admin</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <form
+                            th:method="post"
+                            th:action="@{/users/logout}">
+                        <input class="nav-a" type="submit" value="Logout">
+                    </form>
+
+                </li>
+            </th:block>
+
+
+        </ul>
+    </nav>
+</header>
+<footer th:fragment="footer" class="footer bg-blur rounded">
+    <div class="container-fluid text-center">
+        <div class="h5 text-white">
+            &copy; Spring Advanced Demo Project. All rights reserved.
+        </div>
+    </div>
+</footer>
+</body>
+</html>
