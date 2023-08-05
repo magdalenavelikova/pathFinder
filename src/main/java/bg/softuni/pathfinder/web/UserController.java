@@ -99,7 +99,7 @@ public String registerNewUser(
 
         redirectAttributes.addFlashAttribute("bad_credentials", true);
 
-        return "redirect:/users/login";
+        return "redirect:/login";
     }
 
     @GetMapping("/profile")
