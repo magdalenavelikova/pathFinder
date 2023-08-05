@@ -33,3 +33,6 @@ spring:
   #api-key: 
   #api-secret: 
   #cloud-name: 
+  app:
+    default:
+      password: 456123

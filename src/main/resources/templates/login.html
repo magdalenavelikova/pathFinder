@@ -12,8 +12,8 @@
 
             <form
                     th:action="@{/users/login}"
-                    th:method="post"
-                    th:object="${userLoginDto}">
+                    th:method="post">
+
                 <div>
                     <h5 class="bg-danger" th:if="${isExist==false}">Invalid username or password</h5>
                     <div class="col-auto">
@@ -21,10 +21,11 @@
                     </div>
                     <div class="col-auto">
                         <input type="text"
-                               th:field="*{email}"
 
                                required minlength="4" maxlength="20"
                                id="inputUsername"
+                               th:value="${username}"
+                               name="username"
                                class="form-control"
                                aria-describedby="usernameHelpInline">
                     </div>
@@ -35,12 +36,15 @@
                     </div>
                     <div class="col-auto">
                         <input type="password"
-                               th:field="*{password}"
+                               name="password"
                                required minlength="4" maxlength="20"
                                id="inputPassword" class="form-control"
                                aria-describedby="passwordHelpInline">
                     </div>
                 </div>
+                <p th:if="${bad_credentials}" class="errors alert alert-danger">
+                    Invalid username or password.
+                </p>
                 <div class="d-flex justify-content-center mt-2">
                     <button class="btn btn-primary btn-block w-50" type="submit">Login</button>
                 </div>

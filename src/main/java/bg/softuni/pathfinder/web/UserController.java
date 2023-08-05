@@ -1,23 +1,33 @@
 package bg.softuni.pathfinder.web;
 
-import bg.softuni.pathfinder.model.dto.UserLoginDto;
 import bg.softuni.pathfinder.model.dto.UserProfileDto;
 import bg.softuni.pathfinder.model.dto.UserRegisterDto;
 import bg.softuni.pathfinder.service.UserService;
-import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final SecurityContextRepository securityContextRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, SecurityContextRepository securityContextRepository) {
         this.userService = userService;
+
+        this.securityContextRepository = securityContextRepository;
     }
 
     @ModelAttribute("userRegisterDto")
@@ -25,10 +35,10 @@ public class UserController {
         return new UserRegisterDto();
     }
 
-    @ModelAttribute("userLoginDto")
-    public UserLoginDto loginUserModel() {
-        return new UserLoginDto();
-    }
+//    @ModelAttribute("userLoginDto")
+//    public UserLoginDto loginUserModel() {
+//        return new UserLoginDto();
+//    }
 
     @ModelAttribute("userProfileDto")
     public UserProfileDto profileModel() {
@@ -40,52 +50,62 @@ public class UserController {
         return "register";
     }
 
-    @PostMapping("/register")
-    public String register(@Valid UserRegisterDto userRegisterDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("userRegisterDto", userRegisterDto);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterDto", bindingResult);
-            return "redirect:register";
-        }
-        userService.registerAndLogin(userRegisterDto);
-        return "redirect:/";
-    }
+//    @PostMapping("/register")
+//    public String register(
+//            @Valid UserRegisterDto userRegisterDto,
+//            BindingResult bindingResult,
+//            RedirectAttributes redirectAttributes) {
+//        if (bindingResult.hasErrors()) {
+//            redirectAttributes.addFlashAttribute("userRegisterDto", userRegisterDto);
+//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterDto", bindingResult);
+//            return "redirect:/register";
+//        }
+//        userService.registerAndLogin(userRegisterDto);
+//        return "redirect:/";
+//    }
+@PostMapping("/register")
+public String registerNewUser(
+        UserRegisterDto userRegisterDto,
+        HttpServletRequest request,
+        HttpServletResponse response) {
+
+    userService.registerAndLogin(userRegisterDto, successfulAuth -> {
+        // populating security context
+        SecurityContextHolderStrategy strategy = SecurityContextHolder.getContextHolderStrategy();
+
+        SecurityContext context = strategy.createEmptyContext();
+        context.setAuthentication(successfulAuth);
+
+        strategy.setContext(context);
+
+        securityContextRepository.saveContext(context, request, response);
+    });
+
+    return "redirect:/";
+}
 
     @GetMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("isExist", true);
+    public String login() {
+        //  userService.encodeOldPassword();
         return "login";
     }
 
-    @GetMapping("/logout")
-    public String logout() {
-        userService.logout();
-        return "redirect:/";
+    @PostMapping("/login-error")
+    public String onFailedLogin(
+            @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username,
+            RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY,
+                username);
+
+        redirectAttributes.addFlashAttribute("bad_credentials", true);
+
+        return "redirect:/users/login";
     }
 
-    @PostMapping("/login")
-    public String login(@Valid UserLoginDto userLoginDto,
-                        BindingResult bindingResult,
-                        RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("userLoginDto", userLoginDto);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginDto", bindingResult);
-            return "redirect:login";
-        }
-
-        boolean login = userService.login(userLoginDto);
-        if (!login) {
-            redirectAttributes.addFlashAttribute("userLoginDto", userLoginDto);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userLoginDto", bindingResult);
-            redirectAttributes.addFlashAttribute("isExist", false);
-            return "redirect:login";
-        }
-        return "redirect:/";
-    }
-
-    @GetMapping("/profile/{id}")
-    public String profile(@PathVariable Long id, Model model) {
-        model.addAttribute("userProfile", userService.getProfile(id));
+    @GetMapping("/profile")
+    public String profile(Principal principal, Model model) {
+        model.addAttribute("userProfile",
+                userService.getProfile(principal.getName()));
 
         return "profile";
     }

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
 <head th:fragment="head">
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,6 +10,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/mobile.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
           integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
@@ -21,35 +24,41 @@
 <header th:fragment="navigation"
 >
     <nav class="main-nav">
-        <ul th:object="${@currentUser}">
-            <th:block th:if="*{isAnonymous()}">
-                <li>
+        <ul >
+            <th:block >
+                <li sec:authorize="!isAuthenticated()">
                     <a href="/">Home</a>
                 </li>
-                <li>
+                <li sec:authorize="!isAuthenticated()">
                     <a href="/users/login">Login</a>
                 </li>
-                <li>
+                <li sec:authorize="!isAuthenticated()">
                     <a href="/users/register">Register</a>
                 </li>
-                <li>
+                <li sec:authorize="!isAuthenticated()">
                     <a href="/about">About</a>
                 </li>
             </th:block>
 
-            <th:block th:if="*{isLoggedIn()}">
+            <th:block >
 
-                <li>
+                <li sec:authorize="isAuthenticated()">
                     <a href="routes/add">Add new route</a>
                 </li>
-                <li>
-                    <a th:href="@{users/profile/{id}(id=*{id})}">Profile</a>
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{users/profile}">Profile</a>
+
+                </li >
+                <li sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/admin}">Admin</a>
                 </li>
-                <li>
-                    <a href="/">Admin</a>
-                </li>
-                <li>
-                    <a href="users/logout">Logout</a>
+                <li sec:authorize="isAuthenticated()">
+                    <form
+                            th:method="post"
+                            th:action="@{/users/logout}">
+                        <input class="nav-a" type="submit" value="Logout">
+                    </form>
+
                 </li>
             </th:block>
 

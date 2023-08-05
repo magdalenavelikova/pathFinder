@@ -20,7 +20,13 @@ public class HomeController {
     public String home(Model model) {
         model.addAttribute("mostCommented", routeService.getMostCommentedRoute());
         model.addAttribute("pictures", pictureService.findAllUrls());
+
         return "index";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin-page";
     }
 
     @GetMapping("/about")
