@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85ad450e-aa38-40ea-961f-1d9e4eec0282" name="Changes" comment="spring security with Spring boot 3" />
+    <list default="true" id="85ad450e-aa38-40ea-961f-1d9e4eec0282" name="Changes" comment="spring security with Spring boot 3">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bg/softuni/pathfinder/web/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bg/softuni/pathfinder/web/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bg/softuni/pathfinder/web/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bg/softuni/pathfinder/web/UserController.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,10 +97,22 @@
       <workItem from="1691221444983" duration="9492000" />
       <workItem from="1691234414743" duration="8014000" />
     </task>
+    <task id="LOCAL-00001" summary="spring security with Spring boot 3">
+      <created>1691250810134</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1691250810134</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="spring security with Spring boot 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="spring security with Spring boot 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -112,17 +129,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bg/softuni/pathfinder/web/UserController.java</url>
-          <line>62</line>
+          <line>64</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bg/softuni/pathfinder/web/UserController.java</url>
-          <line>71</line>
+          <line>77</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bg/softuni/pathfinder/web/UserController.java</url>
-          <line>107</line>
+          <line>113</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>

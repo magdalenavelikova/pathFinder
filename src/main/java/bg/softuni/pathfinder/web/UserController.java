@@ -5,6 +5,7 @@ import bg.softuni.pathfinder.model.dto.UserRegisterDto;
 import bg.softuni.pathfinder.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -64,10 +66,16 @@ public class UserController {
 //        return "redirect:/";
 //    }
 @PostMapping("/register")
-public String registerNewUser(
-        UserRegisterDto userRegisterDto,
-        HttpServletRequest request,
-        HttpServletResponse response) {
+public String registerNewUser(@Valid UserRegisterDto userRegisterDto,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes,
+                              HttpServletRequest request,
+                              HttpServletResponse response) {
+    if (bindingResult.hasErrors()) {
+        redirectAttributes.addFlashAttribute("userRegisterDto", userRegisterDto);
+        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterDto", bindingResult);
+        return "redirect:/users/register";
+    }
 
     userService.registerAndLogin(userRegisterDto, successfulAuth -> {
         // populating security context
