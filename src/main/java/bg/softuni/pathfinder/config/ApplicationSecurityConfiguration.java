@@ -44,7 +44,7 @@ public class ApplicationSecurityConfiguration {
                         loginPage("/users/login").
                         usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY).
                         passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY).
-                        defaultSuccessUrl("/").//use true argument if you always want to go there, otherwise go to previous page
+                        defaultSuccessUrl("/",true).//use true argument if you always want to go there, otherwise go to previous page
                                 failureForwardUrl("/users/login-error")
                 )
 
