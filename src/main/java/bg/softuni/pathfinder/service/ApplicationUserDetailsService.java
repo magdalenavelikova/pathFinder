@@ -1,5 +1,6 @@
 package bg.softuni.pathfinder.service;
 
+
 import bg.softuni.pathfinder.model.dto.AppUserDetails;
 import bg.softuni.pathfinder.model.entity.RoleEntity;
 import bg.softuni.pathfinder.model.entity.UserEntity;

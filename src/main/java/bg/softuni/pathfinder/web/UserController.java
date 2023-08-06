@@ -108,10 +108,9 @@ public String registerNewUser(@Valid UserRegisterDto userRegisterDto,
         return "redirect:/login";
     }
 
-    @GetMapping("/profile")
-    public String profile(Principal principal, Model model) {
-        model.addAttribute("userProfile",
-                userService.getProfile(principal.getName()));
+    @GetMapping("/profile/{id}")
+    public String profile(@PathVariable Long id, Model model) {
+        model.addAttribute("userProfile", userService.getProfile(id));
 
         return "profile";
     }

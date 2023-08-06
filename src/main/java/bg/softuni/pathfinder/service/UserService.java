@@ -84,11 +84,11 @@ public class UserService {
 //    }
 
 
-    public UserProfileDto getProfile(String username) {
-        Optional<UserEntity> user = userRepository.findByUsername(username);
+    public UserProfileDto getProfile(Long id) {
+        Optional<UserEntity> user = userRepository.findById(id);
 
         if (user.isEmpty()) {
-            LOGGER.info("User with username [{}] not found.", username);
+            LOGGER.info("User with id [{}] not found.", id);
             return null;
         }
 
