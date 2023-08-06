@@ -47,11 +47,16 @@ public class ApplicationSecurityConfiguration {
                         defaultSuccessUrl("/").//use true argument if you always want to go there, otherwise go to previous page
                                 failureForwardUrl("/users/login-error")
                 )
+
+                .rememberMe(customizer -> customizer.
+                        key("unique key").
+                        tokenValiditySeconds(604800)
+                )
                 .logout(customizer -> customizer.
                         logoutUrl("/users/logout").
                         logoutSuccessUrl("/").
                         invalidateHttpSession(true))
-                .securityContext(customizer -> customizer.
+                .securityContext((securityContext) -> securityContext.
                         securityContextRepository(securityContextRepository));
 
         return http.build();

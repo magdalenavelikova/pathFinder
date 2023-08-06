@@ -28,7 +28,6 @@ public class UserController {
 
     public UserController(UserService userService, SecurityContextRepository securityContextRepository) {
         this.userService = userService;
-
         this.securityContextRepository = securityContextRepository;
     }
 
@@ -83,7 +82,6 @@ public String registerNewUser(@Valid UserRegisterDto userRegisterDto,
 
         SecurityContext context = strategy.createEmptyContext();
         context.setAuthentication(successfulAuth);
-
         strategy.setContext(context);
 
         securityContextRepository.saveContext(context, request, response);

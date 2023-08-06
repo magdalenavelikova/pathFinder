@@ -44,16 +44,18 @@ public class UserService {
         this.userDetailsService = userDetailsService;
     }
 
-    public void registerAndLogin(UserRegisterDto userRegisterDto, Consumer<Authentication> successfulLoginProcessor) {
+    public void registerAndLogin(UserRegisterDto userRegisterDto,
+                                 Consumer<Authentication> successfulLoginProcessor) {
         UserEntity user = mapper.map(userRegisterDto, UserEntity.class);
         user.setLevel(Level.BEGINNER);
-        var rowPassword = user.getPassword();
+        String rowPassword = user.getPassword();
         user.setPassword(passwordEncoder.encode(rowPassword));
         Optional<RoleEntity> role = userRoleRepository.findByRole(Role.USER);
         user.setRoles(List.of(role.get()));
-        user.setLevel(Level.BEGINNER);
+
         userRepository.save(user);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userRegisterDto.getEmail());
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userRegisterDto.getUsername());
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDetails,
