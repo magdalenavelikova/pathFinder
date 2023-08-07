@@ -31,10 +31,10 @@ public class UserRegisterDto {
     @Min(value = 10, message = "Age must be above 10 ")
     private Integer age;
     @NotEmpty
-    @Size(min = 5, max = 10)
+    @Size(min = 5, max = 20)
     private String password;
     @NotEmpty
-    @Size(min = 5, max = 10)
+    @Size(min = 5, max = 20)
     private String confirmPassword;
 
 

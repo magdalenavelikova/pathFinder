@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 public class AddRouteDto {
     @NotEmpty
-    @Size(min = 3, max = 20, message = "Route name mus be between 3 and 20 charachters")
+    @Size(min = 3, max = 20, message = "Route name must be between 3 and 20 characters")
     private String name;
 
     @NotEmpty

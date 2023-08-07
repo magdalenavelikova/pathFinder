@@ -39,9 +39,7 @@ public class RouteController {
 
     @GetMapping("/add")
     public String addRoute(){
-        if(!currentUser.isLoggedIn()){
-            return "redirect:/users/login";
-        }
+
         return "add-route";
     }
     @PostMapping("/add")
